@@ -19,7 +19,7 @@ array = (1..17).to_a
 mutex = Mutex.new
 stop_thread = false
 
-client.on :open do
+client_on_open = Proc.new do
   puts 'This is Client'
 
   array.each_with_index do |i, index|
@@ -35,6 +35,8 @@ client.on :open do
     end
   end
 end
+
+client.on :open, &client_on_open
 
 client.on :unexpected_response do |res|
   puts "Unexpected response: #{res}"
